@@ -36,18 +36,14 @@ function shuffle(array) {   // Should pass an array as argument
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
 function displaySymbol(deck) {  // Display the card's symbol
-    // Add 'open', 'show' classes to 'card' elements
-    deck.addEventListener('click', function(event) {
-        event.target.classList.add('open', 'show');
-        addCardToList(event.target);
-    })
+    deck.classList.add('open', 'show');
 }
 function addCardToList(card) {  // Add the card to a *list* of "open" cards
     list.push(card);
 }
 function match() {          // If the cards do match, lock the cards in the open position
     // Add 'match' class to 'card' element
-
+    let lastItem = list[(list.length)-1].firstElementChild.classList[1];
 }
 function notMatch() {       // If the cards do not match, remove the cards from the list and hide the card's symbol
     // Remove 'open', 'show' classes to 'card' elements
@@ -62,4 +58,9 @@ function finish() {         // If all cards have matched, display a message with
 
 let deck = document.querySelector('.deck');
 let list = [];
-displaySymbol(deck);
+deck.addEventListener('click', function(event) {
+    displaySymbol(event.target);
+    addCardToList(event.target);
+
+});
+// displaySymbol(deck);
