@@ -11,20 +11,19 @@
  */
 
 // Shuffle function from http://stackoverflow.com/a/2450976
-function shuffle(array) {
+function shuffle(array) {   // Should pass an array as argument
     var currentIndex = array.length, temporaryValue, randomIndex;
 
-    while (currentIndex !== 0) {
-        randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex -= 1;
+    while (currentIndex !== 0) {    // Through the whole items
+        randomIndex = Math.floor(Math.random() * currentIndex); // Select index randomly from 0 to (currentIndex-1)
+        currentIndex--;                                         // Decrement currentIndex by 1
+        // Exchange currentIndex's value for randomIndex's value
         temporaryValue = array[currentIndex];
         array[currentIndex] = array[randomIndex];
         array[randomIndex] = temporaryValue;
     }
-
-    return array;
+    return array;        // Return a shuffled array
 }
-
 
 /*
  * set up the event listener for a card. If a card is clicked:

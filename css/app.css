@@ -71,6 +71,7 @@ h1 {
     cursor: default;
 }
 
+/* Display symbol */
 .deck .card.show {
     font-size: 33px;
 }
