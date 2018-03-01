@@ -41,9 +41,14 @@ function displaySymbol(deck) {  // Display the card's symbol
 function addCardToList(card) {  // Add the card to a *list* of "open" cards
     list.push(card);
 }
-function match() {          // If the cards do match, lock the cards in the open position
-    // Add 'match' class to 'card' element
-    let lastItem = list[(list.length)-1].firstElementChild.classList[1];
+function match(card) {          // If the cards do match, lock the cards in the open position
+    let lastCard = list[(list.length) - 1];                   // <li> element
+    let lastItem = lastCard.firstElementChild.classList[1]; // Second class of <i> element
+    if (card.firstElementChild.classList[1] === lastItem) {
+        // Remove 'open', 'show' classes and add 'match' class
+        lastCard.classList.remove('open', 'show');
+        lastCard.classList.add('match');
+    }
 }
 function notMatch() {       // If the cards do not match, remove the cards from the list and hide the card's symbol
     // Remove 'open', 'show' classes to 'card' elements
@@ -61,6 +66,5 @@ let list = [];
 deck.addEventListener('click', function(event) {
     displaySymbol(event.target);
     addCardToList(event.target);
-
+    match(event.target);
 });
-// displaySymbol(deck);
