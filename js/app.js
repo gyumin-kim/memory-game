@@ -35,3 +35,27 @@ function shuffle(array) {   // Should pass an array as argument
  *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
+function displaySymbol(deck) {  // Display the card's symbol
+    // open show 클래스를 추가
+    deck.addEventListener('click', function(event) {
+        event.target.classList.add('open', 'show');
+    })
+}
+function addCardToList() {  // Add the card to a *list* of "open" cards
+
+}
+function match() {          // If the cards do match, lock the cards in the open position
+
+}
+function notMatch() {       // If the cards do not match, remove the cards from the list and hide the card's symbol
+
+}
+function incCounter() {     // Increment the move counter and display it on the page
+
+}
+function finish() {         // If all cards have matched, display a message with the final score
+
+}
+
+let deck = document.querySelector('.deck');
+displaySymbol(deck);
