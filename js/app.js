@@ -2,9 +2,7 @@
  * Create a list that holds all of your cards
  */
 let deck = document.querySelector('.deck');
-// let list;
 let lastCard = null;    // <li> element
-// let lastCardIcon;       // Second class of <i> element
 
 /*
  * Display the cards on the page
@@ -54,7 +52,7 @@ function updateLastCard(card) {
     lastCard = card;
 }
 function closeCard(card) {
-    card.classList.remove('open', 'show');  // card가 널임
+    card.classList.remove('open', 'show');
 }
 function isMatch(card) {
     if (card.firstElementChild.classList[1] === lastCard.firstElementChild.classList[1])   return true;
@@ -97,16 +95,10 @@ deck.addEventListener('click', function(event) {
             displaySymbol(event.target);    // class to 'open', 'show'
             setTimeout(function trans() {
                 // Remove 'open', 'show'
-                closeCard(lastCard);    // card가 널임
+                closeCard(lastCard);
                 closeCard(event.target);
                 lastCard = null;
             }, 500)
         }
     }
 });
-
-// deck.addEventListener('click', function(event) {
-//     displaySymbol(event.target);
-//     addCardToList(event.target);
-//     match(event.target);
-// });
