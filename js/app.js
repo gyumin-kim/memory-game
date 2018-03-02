@@ -39,12 +39,12 @@ function displaySymbol(deck) {  // Display the card's symbol
     deck.classList.add('open', 'show');
 }
 function addCardToList(card) {  // Add the card to a *list* of "open" cards
-    list.push(card);
+    list = card;
 }
 function match(card) {          // If the cards do match, lock the cards in the open position
-    let lastCard = list[(list.length) - 1];                   // <li> element
-    let lastItem = lastCard.firstElementChild.classList[1]; // Second class of <i> element
-    if (card.firstElementChild.classList[1] === lastItem) {
+    lastCard = list;
+    lastCardIcon = lastCard.firstElementChild.classList[1]; // Second class of <i> element
+    if (card.firstElementChild.classList[1] === lastCardIcon) {
         // Remove 'open', 'show' classes and add 'match' class
         lastCard.classList.remove('open', 'show');
         lastCard.classList.add('match');
@@ -62,7 +62,9 @@ function finish() {         // If all cards have matched, display a message with
 }
 
 let deck = document.querySelector('.deck');
-let list = [];
+let list;
+let lastCard;       // <li> element
+let lastCardIcon;   // Second class of <i> element
 deck.addEventListener('click', function(event) {
     displaySymbol(event.target);
     addCardToList(event.target);
