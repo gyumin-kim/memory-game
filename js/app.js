@@ -95,7 +95,7 @@ deck.addEventListener('click', function(event) {
         else {
             // Open the clicked card, and after a second close both cards
             displaySymbol(event.target);    // class to 'open', 'show'
-            setTimeOut(()=>{
+            setTimeout(function trans() {
                 closeCard(lastCard);
                 closeCard(event.target);
             }, 1000)
