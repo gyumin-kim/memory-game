@@ -1,7 +1,10 @@
 /*
  * Create a list that holds all of your cards
  */
-
+let deck = document.querySelector('.deck');
+// let list;
+let lastCard = null;    // <li> element
+// let lastCardIcon;       // Second class of <i> element
 
 /*
  * Display the cards on the page
@@ -35,24 +38,47 @@ function shuffle(array) {   // Should pass an array as argument
  *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
-function displaySymbol(deck) {  // Display the card's symbol
-    deck.classList.add('open', 'show');
-}
-function addCardToList(card) {  // Add the card to a *list* of "open" cards
-    list = card;
-}
-function match(card) {          // If the cards do match, lock the cards in the open position
-    lastCard = list;
-    lastCardIcon = lastCard.firstElementChild.classList[1]; // Second class of <i> element
-    if (card.firstElementChild.classList[1] === lastCardIcon) {
-        // Remove 'open', 'show' classes and add 'match' class
-        lastCard.classList.remove('open', 'show');
-        lastCard.classList.add('match');
+/*
+function isCardClicked() {
+    if (document.querySelectorAll('.card').onclick) {
+        return true;
+    } else {
+        return false;
     }
 }
+*/
+function displaySymbol(card) {  // Display the card's symbol
+    card.classList.add('open', 'show');
+}
+function updateLastCard(card) {
+    lastCard = card;
+}
+function closeCard(card) {
+    card.classList.remove('open', 'show');
+}
+// function addCardToList(card) {  // Add the card to a *list* of "open" cards
+//     list = card;
+// }
+function isMatch(card) {
+    if (card.firstElementChild.classList[1] === lastCard.firstElementChild.classList[1])   return true;
+    else return false;
+}
+function matchCards(card) { // remove 'open', 'show', add 'match'
+    // lastCard = list;
+    // lastCardIcon = lastCard.firstElementChild.classList[1]; // Second class of <i> element
+    // if (card.firstElementChild.classList[1] === lastCardIcon) {
+        // In a lastCard, remove 'open', 'show' classes and add 'match' class
+        // lastCard.classList.remove('open', 'show');
+        closeCard(lastCard);
+        lastCard.classList.add('match');
+        // In a card that I click now, add 'match' class
+        card.firstElementChild.classList.add('match');
+        lastCard = null;
+    // }
+}
+/*
 function notMatch() {       // If the cards do not match, remove the cards from the list and hide the card's symbol
     // Remove 'open', 'show' classes to 'card' elements
-
 }
 function incrCounter() {     // Increment the move counter and display it on the page
 
@@ -60,13 +86,37 @@ function incrCounter() {     // Increment the move counter and display it on the
 function finish() {         // If all cards have matched, display a message with the final score
 
 }
-
-let deck = document.querySelector('.deck');
-let list;
-let lastCard;       // <li> element
-let lastCardIcon;   // Second class of <i> element
+*/
 deck.addEventListener('click', function(event) {
-    displaySymbol(event.target);
-    addCardToList(event.target);
-    match(event.target);
+    // If there's not opened card (lastCard's initial value is null)
+    if (lastCard === null) {
+        // Display the card's symbol (class to 'open', 'show')
+        displaySymbol(event.target);
+        // Put card into lastCard
+        updateLastCard(event.target);
+    }
+    // If there's an opened card
+    else {
+        // If those cards are same (check 'fa' in the <i> element)
+        if(!isMatch(event.target)) {
+            // Change the class name to 'match' (remove 'open', 'show', add 'match')
+            matchCards(event.target);
+        }
+        // If those cards are not same
+        else {
+            // Open the clicked card, and after a second close both cards
+            displaySymbol(event.target);    // class to 'open', 'show'
+            setTimeOut(()=>{
+                closeCard(lastCard);
+                closeCard(event.target);
+            }, 1000)
+            lastCard = null;
+        }
+    }
 });
+
+// deck.addEventListener('click', function(event) {
+//     displaySymbol(event.target);
+//     addCardToList(event.target);
+//     match(event.target);
+// });
