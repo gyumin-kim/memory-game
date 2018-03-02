@@ -1,7 +1,10 @@
+var deck = document.querySelector('.deck');
+var restart = document.querySelector('.restart');
+var count = parseInt(document.querySelector('.moves').innerHTML);   // Click count
+// var newCount = document.querySelector('.moves').textContent;
 /*
  * Create a list that holds all of your cards
  */
-let deck = document.querySelector('.deck');
 let lastCard = null;    // <li> element
 
 /*
@@ -77,6 +80,10 @@ function finish() {         // If all cards have matched, display a message with
 }
 */
 deck.addEventListener('click', function(event) {
+    if (++count % 2 === 0) {
+        document.querySelector('.moves').textContent = count / 2;
+    }
+    // document.querySelector('.moves').textContent = ++count;
     // If there's not opened card (lastCard's initial value is null)
     if (lastCard === null) {
         // Display the card's symbol (class to 'open', 'show')
@@ -105,3 +112,7 @@ deck.addEventListener('click', function(event) {
         }
     }
 });
+
+// restart.addEventListener('click', function(event) {
+//     shuffle(event);
+// });
