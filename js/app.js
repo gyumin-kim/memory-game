@@ -59,11 +59,14 @@ function isMatch(card) {
     else return false;
 }
 function matchCards(card) { // remove 'open', 'show', add 'match'
-    closeCard(lastCard);
-    lastCard.classList.add('match');
-    // In a card that I click now, add 'match' class
-    card.classList.add('match');
-    lastCard = null;
+    setTimeout(function transToOpened() {
+        // In the lastCard, remove 'open', 'show' and add 'match' class
+        closeCard(lastCard);
+        lastCard.classList.add('match');
+        // In a card that I click now, add 'match' class
+        card.classList.add('match');
+        lastCard = null;
+    }, 500)
 }
 /*
 function incrCounter() {     // Increment the move counter and display it on the page
