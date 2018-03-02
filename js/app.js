@@ -54,7 +54,7 @@ function updateLastCard(card) {
     lastCard = card;
 }
 function closeCard(card) {
-    card.classList.remove('open', 'show');
+    card.classList.remove('open', 'show');  // card가 널임
 }
 function isMatch(card) {
     if (card.firstElementChild.classList[1] === lastCard.firstElementChild.classList[1])   return true;
@@ -96,10 +96,11 @@ deck.addEventListener('click', function(event) {
             // Open the clicked card, and after a second close both cards
             displaySymbol(event.target);    // class to 'open', 'show'
             setTimeout(function trans() {
-                closeCard(lastCard);
+                // Remove 'open', 'show'
+                closeCard(lastCard);    // card가 널임
                 closeCard(event.target);
-            }, 1000)
-            lastCard = null;
+                lastCard = null;
+            }, 500)
         }
     }
 });
