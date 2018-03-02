@@ -56,30 +56,18 @@ function updateLastCard(card) {
 function closeCard(card) {
     card.classList.remove('open', 'show');
 }
-// function addCardToList(card) {  // Add the card to a *list* of "open" cards
-//     list = card;
-// }
 function isMatch(card) {
     if (card.firstElementChild.classList[1] === lastCard.firstElementChild.classList[1])   return true;
     else return false;
 }
 function matchCards(card) { // remove 'open', 'show', add 'match'
-    // lastCard = list;
-    // lastCardIcon = lastCard.firstElementChild.classList[1]; // Second class of <i> element
-    // if (card.firstElementChild.classList[1] === lastCardIcon) {
-        // In a lastCard, remove 'open', 'show' classes and add 'match' class
-        // lastCard.classList.remove('open', 'show');
-        closeCard(lastCard);
-        lastCard.classList.add('match');
-        // In a card that I click now, add 'match' class
-        card.firstElementChild.classList.add('match');
-        lastCard = null;
-    // }
+    closeCard(lastCard);
+    lastCard.classList.add('match');
+    // In a card that I click now, add 'match' class
+    card.classList.add('match');
+    lastCard = null;
 }
 /*
-function notMatch() {       // If the cards do not match, remove the cards from the list and hide the card's symbol
-    // Remove 'open', 'show' classes to 'card' elements
-}
 function incrCounter() {     // Increment the move counter and display it on the page
 
 }
@@ -98,8 +86,9 @@ deck.addEventListener('click', function(event) {
     // If there's an opened card
     else {
         // If those cards are same (check 'fa' in the <i> element)
-        if(!isMatch(event.target)) {
+        if(isMatch(event.target)) {
             // Change the class name to 'match' (remove 'open', 'show', add 'match')
+            displaySymbol(event.target);
             matchCards(event.target);
         }
         // If those cards are not same
