@@ -3,7 +3,7 @@ let cards = Array.from(deck.children);  // Convert <li> elements to an array
 let restart = document.querySelector('.restart');
 let count = parseInt(document.querySelector('.moves').innerHTML);   // Click count
 let shuffledCards, openedCards, matchedCards;
-let stars = document.querySelectorAll('.fa-star');
+let stars = document.querySelectorAll('.updateStar');
 /*
  * Create a list that holds all of your cards
  */
