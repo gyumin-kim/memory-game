@@ -48,6 +48,10 @@ function isCardClicked() {
     }
 }
 */
+function countTry() {   // Count your total tries
+    if (++count % 2 === 0)
+        document.querySelector('.moves').textContent = count / 2;
+}
 function displaySymbol(card) {  // Display the card's symbol
     card.classList.add('open', 'show');
 }
@@ -71,6 +75,13 @@ function matchCards(card) { // remove 'open', 'show', add 'match'
         lastCard = null;
     }, 500)
 }
+function getCardIndex(card) {    // Check if you click the same card twice
+    var index = 0;
+    while ((card = card.previousElementSibling)) {
+        index++;
+    }
+    return index;
+}
 /*
 function incrCounter() {     // Increment the move counter and display it on the page
 
@@ -80,12 +91,10 @@ function finish() {         // If all cards have matched, display a message with
 }
 */
 deck.addEventListener('click', function(event) {
-    if (++count % 2 === 0) {
-        document.querySelector('.moves').textContent = count / 2;
-    }
-    // document.querySelector('.moves').textContent = ++count;
     // If there's not opened card (lastCard's initial value is null)
     if (lastCard === null) {
+        // Count your total tries
+        countTry();
         // Display the card's symbol (class to 'open', 'show')
         displaySymbol(event.target);
         // Put card into lastCard
@@ -93,22 +102,28 @@ deck.addEventListener('click', function(event) {
     }
     // If there's an opened card
     else {
-        // If those cards are same (check 'fa' in the <i> element)
-        if(isMatch(event.target)) {
-            // Change the class name to 'match' (remove 'open', 'show', add 'match')
-            displaySymbol(event.target);
-            matchCards(event.target);
-        }
-        // If those cards are not same
-        else {
-            // Open the clicked card, and after a second close both cards
-            displaySymbol(event.target);    // class to 'open', 'show'
-            setTimeout(function transToClosed() {
-                // Remove 'open', 'show'
-                closeCard(lastCard);
-                closeCard(event.target);
-                lastCard = null;
-            }, 500)
+        if (!(getCardIndex(lastCard) === getCardIndex(event.target))) {
+            // Count your total tries
+            countTry();
+
+            // If those cards are same (check 'fa' in the <i> element)
+            if(isMatch(event.target)) {
+                // Change the class name to 'match' (remove 'open', 'show', add 'match')
+                displaySymbol(event.target);
+                matchCards(event.target);
+            }
+            
+            // If those cards are not same
+            else {
+                // Open the clicked card, and after a second close both cards
+                displaySymbol(event.target);    // class to 'open', 'show'
+                setTimeout(function transToClosed() {
+                    // Remove 'open', 'show'
+                    closeCard(lastCard);
+                    closeCard(event.target);
+                    lastCard = null;
+                }, 500)
+            }
         }
     }
 });
