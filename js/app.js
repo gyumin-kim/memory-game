@@ -1,8 +1,9 @@
-var deck = document.querySelector('.deck');
-var cards = Array.from(deck.children);  // Convert <li> elements to an array
-var restart = document.querySelector('.restart');
-var count = parseInt(document.querySelector('.moves').innerHTML);   // Click count
+let deck = document.querySelector('.deck');
+let cards = Array.from(deck.children);  // Convert <li> elements to an array
+let restart = document.querySelector('.restart');
+let count = parseInt(document.querySelector('.moves').innerHTML);   // Click count
 let shuffledCards, openedCards, matchedCards;
+let stars = document.getElementsByClassName('fa-star');
 /*
  * Create a list that holds all of your cards
  */
@@ -52,8 +53,24 @@ function isCardClicked() {
 }
 */
 function countTry() {   // Increment the move counter and display it on the page
-    if (++count % 2 === 0)
+    if (++count % 2 === 0) {
         document.querySelector('.moves').textContent = count / 2;
+        updateStar();
+    }
+}
+function updateStar() { // 3~5, 6~8, 9~
+    if (count/2 === 10) {
+        stars[2].classList.add('fa-star-o');
+        stars[2].classList.remove('fa-star');
+    }
+    else if (count/2 === 15) {
+        stars[1].classList.add('fa-star-o');
+        stars[1].classList.remove('fa-star');
+    }
+    else if (count/2 === 20) {
+        stars[0].classList.add('fa-star-o');
+        stars[0].classList.remove('fa-star');
+    }
 }
 function displaySymbol(card) {  // Display the card's symbol
     card.classList.add('open', 'show');
@@ -91,6 +108,7 @@ function clickMatchedCard(card) {   // Check if you click a matched card
 // function finish() {         // If all cards have matched, display a message with the final score
 
 // }
+
 deck.addEventListener('click', function(event) {
     // If you click a matched card, nothing happens.
     if (clickMatchedCard(event.target))
@@ -99,6 +117,8 @@ deck.addEventListener('click', function(event) {
     if (lastCard === null) {
         // Count your total tries
         countTry();
+        // Check count number and update stars
+        // updateStar();
         // Display the card's symbol (class to 'open', 'show')
         displaySymbol(event.target);
         // Put card into lastCard
@@ -110,6 +130,8 @@ deck.addEventListener('click', function(event) {
         if (!(getCardIndex(lastCard) === getCardIndex(event.target))) {
             // Count your total tries
             countTry();
+            // Check count number and update stars
+            // updateStar();
 
             // If those cards are same (check 'fa' in the <i> element)
             if(isMatch(event.target)) {
@@ -132,6 +154,7 @@ deck.addEventListener('click', function(event) {
         }
     }
 });
+
 /*
 QUESTION
 1. 두번째 카드를 클릭하고 색깔이 바뀐다거나 다시 뒤집히기까지 걸리는 0.5초 사이에
