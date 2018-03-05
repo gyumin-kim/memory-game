@@ -82,6 +82,9 @@ function getCardIndex(card) {    // Check if you click the same card twice
     }
     return index;
 }
+function clickMatchedCard(card) {   // Check if you click a matched card
+    return card.classList[1] === "match";
+}
 /*
 function incrCounter() {     // Increment the move counter and display it on the page
 
@@ -91,6 +94,9 @@ function finish() {         // If all cards have matched, display a message with
 }
 */
 deck.addEventListener('click', function(event) {
+    // If you click a matched card, nothing happens.
+    if (clickMatchedCard(event.target))
+        return;
     // If there's not opened card (lastCard's initial value is null)
     if (lastCard === null) {
         // Count your total tries
@@ -102,6 +108,7 @@ deck.addEventListener('click', function(event) {
     }
     // If there's an opened card
     else {
+        // Check if you click the same card twice
         if (!(getCardIndex(lastCard) === getCardIndex(event.target))) {
             // Count your total tries
             countTry();
@@ -127,6 +134,13 @@ deck.addEventListener('click', function(event) {
         }
     }
 });
+/*
+QUESTION
+1. 두번째 카드를 클릭하고 색깔이 바뀐다거나 다시 뒤집히기까지 걸리는 0.5초 사이에
+클릭을 누르면 closeCard에서 에러 (classList가 null인 상태)
+2. 카드 내부 정중앙의 아이콘을 누르면 isMatch에서 에러 (classList가 null인 상태)
+*/
+
 
 // restart.addEventListener('click', function(event) {
 //     shuffle(event);
