@@ -1,6 +1,8 @@
 var deck = document.querySelector('.deck');
+var cards = Array.from(deck.children);  // Convert <li> elements to an array
 var restart = document.querySelector('.restart');
 var count = parseInt(document.querySelector('.moves').innerHTML);   // Click count
+let shuffledCards, openedCards, matchedCards;
 // var newCount = document.querySelector('.moves').textContent;
 /*
  * Create a list that holds all of your cards
@@ -19,8 +21,10 @@ function shuffle(array) {   // Should pass an array as argument
     var currentIndex = array.length, temporaryValue, randomIndex;
 
     while (currentIndex !== 0) {    // Through the whole items
-        randomIndex = Math.floor(Math.random() * currentIndex); // Select index randomly from 0 to (currentIndex-1)
-        currentIndex--;                                         // Decrement currentIndex by 1
+        // Select index randomly from 0 to (currentIndex-1)
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        // Decrement currentIndex by 1
+        currentIndex--;
         // Exchange currentIndex's value for randomIndex's value
         temporaryValue = array[currentIndex];
         array[currentIndex] = array[randomIndex];
@@ -48,7 +52,7 @@ function isCardClicked() {
     }
 }
 */
-function countTry() {   // Count your total tries
+function countTry() {   // Increment the move counter and display it on the page
     if (++count % 2 === 0)
         document.querySelector('.moves').textContent = count / 2;
 }
@@ -85,14 +89,9 @@ function getCardIndex(card) {    // Check if you click the same card twice
 function clickMatchedCard(card) {   // Check if you click a matched card
     return card.classList[1] === "match";
 }
-/*
-function incrCounter() {     // Increment the move counter and display it on the page
+// function finish() {         // If all cards have matched, display a message with the final score
 
-}
-function finish() {         // If all cards have matched, display a message with the final score
-
-}
-*/
+// }
 deck.addEventListener('click', function(event) {
     // If you click a matched card, nothing happens.
     if (clickMatchedCard(event.target))
@@ -138,10 +137,31 @@ deck.addEventListener('click', function(event) {
 QUESTION
 1. 두번째 카드를 클릭하고 색깔이 바뀐다거나 다시 뒤집히기까지 걸리는 0.5초 사이에
 클릭을 누르면 closeCard에서 에러 (classList가 null인 상태)
-2. 카드 내부 정중앙의 아이콘을 누르면 isMatch에서 에러 (classList가 null인 상태)
+2. 두번째 카드를 클릭 시 카드 내부 정중앙의 아이콘을 누르면 isMatch에서 에러 
+(classList가 null인 상태)
 */
 
-
-// restart.addEventListener('click', function(event) {
-//     shuffle(event);
-// });
+restart.addEventListener('click', function() {
+    // Initialize count to 0
+    document.querySelector('.moves').innerHTML = 0;
+    count = 0;
+    // Make all openedCards' classes just 'card'
+    openedCards = Array.from(document.getElementsByClassName('open'));
+    for (let i = 0; i < openedCards.length; i++) {
+        openedCards[i].className = 'card';
+    }
+    // Make all matchedCards' classes just 'card'
+    matchedCards = Array.from(document.getElementsByClassName('match'));
+    for (let i = 0; i < matchedCards.length; i++) {
+        matchedCards[i].className = 'card';
+    }
+    // Shuffle all the cards and save to shuffledCards
+    shuffledCards = shuffle(cards);
+    // Remove all the <li> elements from deck(<ul> element)
+    while (deck.firstChild) {
+        deck.removeChild(deck.firstChild);
+    }
+    // Append shuffled <li> elements to deck
+    for (let i = 0; i < shuffledCards.length; i++)
+        deck.appendChild(shuffledCards[i]);
+});
