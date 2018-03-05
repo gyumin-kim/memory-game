@@ -3,7 +3,7 @@ let cards = Array.from(deck.children);  // Convert <li> elements to an array
 let restart = document.querySelector('.restart');
 let count = parseInt(document.querySelector('.moves').innerHTML);   // Click count
 let shuffledCards, openedCards, matchedCards;
-let stars = document.getElementsByClassName('fa-star');
+let stars = document.querySelectorAll('.fa-star');
 /*
  * Create a list that holds all of your cards
  */
@@ -43,22 +43,13 @@ function shuffle(array) {   // Should pass an array as argument
  *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
-/*
-function isCardClicked() {
-    if (document.querySelectorAll('.card').onclick) {
-        return true;
-    } else {
-        return false;
-    }
-}
-*/
 function countTry() {   // Increment the move counter and display it on the page
     if (++count % 2 === 0) {
         document.querySelector('.moves').textContent = count / 2;
         updateStar();
     }
 }
-function updateStar() { // 3~5, 6~8, 9~
+function updateStar() { // Change the number of stars according to counter
     if (count/2 === 10) {
         stars[2].classList.add('fa-star-o');
         stars[2].classList.remove('fa-star');
@@ -70,6 +61,14 @@ function updateStar() { // 3~5, 6~8, 9~
     else if (count/2 === 20) {
         stars[0].classList.add('fa-star-o');
         stars[0].classList.remove('fa-star');
+    }
+}
+function resetStar() {
+    for (let i = 0; i < 3; i++) {
+        if (stars[i].classList.contains('fa-star-o')) {
+            stars[i].classList.add('fa-star');
+            stars[i].classList.remove('fa-star-o');
+        }
     }
 }
 function displaySymbol(card) {  // Display the card's symbol
@@ -186,4 +185,5 @@ restart.addEventListener('click', function() {
     // Append shuffled <li> elements to deck
     for (let i = 0; i < shuffledCards.length; i++)
         deck.appendChild(shuffledCards[i]);
+    resetStar();
 });
