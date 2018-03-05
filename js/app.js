@@ -3,7 +3,6 @@ var cards = Array.from(deck.children);  // Convert <li> elements to an array
 var restart = document.querySelector('.restart');
 var count = parseInt(document.querySelector('.moves').innerHTML);   // Click count
 let shuffledCards, openedCards, matchedCards;
-// var newCount = document.querySelector('.moves').textContent;
 /*
  * Create a list that holds all of your cards
  */
