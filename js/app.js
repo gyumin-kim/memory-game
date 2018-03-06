@@ -103,7 +103,6 @@ function clickMatchedCard(card) {   // Check if you click a matched card
     return card.classList[1] === "match";
 }
 function isFinished() { // If all cards have matched, display a message with the final score
-    // let matchCount = document.querySelectorAll('.match').length;
     if (matchCount === 16) {
         modal.modal({ show: false });
         modal.modal('show');
@@ -134,9 +133,11 @@ deck.addEventListener('click', function(event) {
             if(isMatch(event.target)) {
                 // Change the class name to 'match' (remove 'open', 'show', add 'match')
                 displaySymbol(event.target);
-                matchCards(event.target);
-                matchCount = document.querySelectorAll('.match').length;
-                isFinished();
+                matchCards(event.target);       // Delay 500ms
+                setTimeout(function wait() {    // Delay 600ms intentionally to occur after matchCards function
+                    matchCount = document.querySelectorAll('.match').length;
+                    isFinished();
+                }, 600);
             }
             
             // If those cards are not same
