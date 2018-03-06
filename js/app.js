@@ -1,11 +1,17 @@
-let deck = document.querySelector('.deck');
-let cards = Array.from(deck.children);  // Convert <li> elements to an array
-let restart = document.querySelector('.restart');
+const deck = document.querySelector('.deck');
+const cards = Array.from(deck.children);  // Convert <li> elements to an array
+const restart = document.querySelector('.restart');
 let count = parseInt(document.querySelector('.moves').innerHTML);   // Click count
 let shuffledCards, openedCards, matchedCards;
 let lastCard = null;    // <li> element
 let stars = document.querySelectorAll('.updateStar');
-let matchCount = document.querySelectorAll('.match').length;
+let matchCount;
+let timeDisplay = document.querySelector('.timer');
+let seconds = 0, minutes = 0, hours = 0;
+let currentTime;
+let modal = document.getElementsByClassName('modal-content')[0]; // Get the modal
+let btn = document.getElementById("myBtn");     // Get the button that opens the modal
+let span = document.getElementsByClassName("close")[0]; // Get the <span> element that closes the modal
 
 /*
  * Display the cards on the page
@@ -103,10 +109,11 @@ function clickMatchedCard(card) {   // Check if you click a matched card
     return card.classList[1] === "match";
 }
 function isFinished() { // If all cards have matched, display a message with the final score
-    if (matchCount === 16) {
-        modal.modal({ show: false });
-        modal.modal('show');
-    }
+    setTimeout(function wait() {    // Delay 600ms intentionally to occur after matchCards function
+        matchCount = document.querySelectorAll('.match').length;
+        if (matchCount === 16)
+            $('.modal').modal("show");
+    }, 600);
 }
 
 deck.addEventListener('click', function(event) {
@@ -131,13 +138,9 @@ deck.addEventListener('click', function(event) {
 
             // If those cards are same (check 'fa' in the <i> element)
             if(isMatch(event.target)) {
-                // Change the class name to 'match' (remove 'open', 'show', add 'match')
-                displaySymbol(event.target);
-                matchCards(event.target);       // Delay 500ms
-                setTimeout(function wait() {    // Delay 600ms intentionally to occur after matchCards function
-                    matchCount = document.querySelectorAll('.match').length;
-                    isFinished();
-                }, 600);
+                displaySymbol(event.target);    // Change the class name to 'match' (remove 'open', 'show', add 'match')
+                matchCards(event.target);
+                isFinished();
             }
             
             // If those cards are not same
@@ -161,7 +164,6 @@ QUESTION
 클릭을 누르면 closeCard에서 에러 (classList가 null인 상태)
 2. 두번째 카드를 클릭 시 카드 내부 정중앙의 아이콘을 누르면 isMatch에서 에러 
 (classList가 null인 상태)
-3. 카드가 전부 open되었는지 어떻게 파악? (modal이 열릴 조건)
 
 Suggestions to Make Your Project Stand Out!
 참조할 만한 자료 어떤 것 있는지
@@ -203,9 +205,6 @@ restart.addEventListener('click', function() {
 });
 
 /************************** TIMER **************************/
-let timeDisplay = document.querySelector('.timer');
-let seconds = 0, minutes = 0, hours = 0;
-let t;
 
 function add() {
     seconds++;
@@ -229,22 +228,13 @@ function add() {
 
 // Call add() every second and save it to t
 function timer() {
-    t = setTimeout(add, 1000);
+    currentTime = setTimeout(add, 1000);
 }
 
 timer();    // Turn on timer when you open the game
 /************************************************************/
 
 /************************** MODAL **************************/
-// Get the modal
-var modal = document.getElementById('myModal');
-
-// Get the button that opens the modal
-var btn = document.getElementById("myBtn");
-
-// Get the <span> element that closes the modal
-var span = document.getElementsByClassName("close")[0];
-
 // When the user clicks on the button, open the modal 
 btn.onclick = function() {
     modal.style.display = "block";
