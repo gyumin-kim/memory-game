@@ -3,11 +3,9 @@ let cards = Array.from(deck.children);  // Convert <li> elements to an array
 let restart = document.querySelector('.restart');
 let count = parseInt(document.querySelector('.moves').innerHTML);   // Click count
 let shuffledCards, openedCards, matchedCards;
-let stars = document.querySelectorAll('.updateStar');
-/*
- * Create a list that holds all of your cards
- */
 let lastCard = null;    // <li> element
+let stars = document.querySelectorAll('.updateStar');
+let matchCount = document.querySelectorAll('.match').length;
 
 /*
  * Display the cards on the page
@@ -92,7 +90,7 @@ function matchCards(card) { // remove 'open', 'show', add 'match'
         // In a card that I click now, add 'match' class
         card.classList.add('match');
         lastCard = null;
-    }, 500)
+    }, 500);
 }
 function getCardIndex(card) {    // Check if you click the same card twice
     var index = 0;
@@ -104,9 +102,13 @@ function getCardIndex(card) {    // Check if you click the same card twice
 function clickMatchedCard(card) {   // Check if you click a matched card
     return card.classList[1] === "match";
 }
-// function finish() {         // If all cards have matched, display a message with the final score
-
-// }
+function isFinished() { // If all cards have matched, display a message with the final score
+    // let matchCount = document.querySelectorAll('.match').length;
+    if (matchCount === 16) {
+        modal.modal({ show: false });
+        modal.modal('show');
+    }
+}
 
 deck.addEventListener('click', function(event) {
     // If you click a matched card, nothing happens.
@@ -116,8 +118,6 @@ deck.addEventListener('click', function(event) {
     if (lastCard === null) {
         // Count your total tries
         countTry();
-        // Check count number and update stars
-        // updateStar();
         // Display the card's symbol (class to 'open', 'show')
         displaySymbol(event.target);
         // Put card into lastCard
@@ -129,14 +129,14 @@ deck.addEventListener('click', function(event) {
         if (!(getCardIndex(lastCard) === getCardIndex(event.target))) {
             // Count your total tries
             countTry();
-            // Check count number and update stars
-            // updateStar();
 
             // If those cards are same (check 'fa' in the <i> element)
             if(isMatch(event.target)) {
                 // Change the class name to 'match' (remove 'open', 'show', add 'match')
                 displaySymbol(event.target);
                 matchCards(event.target);
+                matchCount = document.querySelectorAll('.match').length;
+                isFinished();
             }
             
             // If those cards are not same
@@ -148,7 +148,7 @@ deck.addEventListener('click', function(event) {
                     closeCard(lastCard);
                     closeCard(event.target);
                     lastCard = null;
-                }, 500)
+                }, 500);
             }
         }
     }
@@ -160,6 +160,7 @@ QUESTION
 클릭을 누르면 closeCard에서 에러 (classList가 null인 상태)
 2. 두번째 카드를 클릭 시 카드 내부 정중앙의 아이콘을 누르면 isMatch에서 에러 
 (classList가 null인 상태)
+3. 카드가 전부 open되었는지 어떻게 파악? (modal이 열릴 조건)
 
 Suggestions to Make Your Project Stand Out!
 참조할 만한 자료 어떤 것 있는지
@@ -200,6 +201,7 @@ restart.addEventListener('click', function() {
     seconds = 0; minutes = 0; hours = 0;
 });
 
+/************************** TIMER **************************/
 let timeDisplay = document.querySelector('.timer');
 let seconds = 0, minutes = 0, hours = 0;
 let t;
@@ -221,7 +223,7 @@ function add() {
     + (minutes ? (minutes > 9 ? minutes : "0" + minutes) : "00") + ":" 
     + (seconds > 9 ? seconds : "0" + seconds);
 
-    timer();    // Update timer every second 
+    timer();    // Update timer every second
 }
 
 // Call add() every second and save it to t
@@ -230,3 +232,32 @@ function timer() {
 }
 
 timer();    // Turn on timer when you open the game
+/************************************************************/
+
+/************************** MODAL **************************/
+// Get the modal
+var modal = document.getElementById('myModal');
+
+// Get the button that opens the modal
+var btn = document.getElementById("myBtn");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks on the button, open the modal 
+btn.onclick = function() {
+    modal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+    modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+/************************************************************/
