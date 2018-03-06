@@ -160,6 +160,15 @@ QUESTION
 클릭을 누르면 closeCard에서 에러 (classList가 null인 상태)
 2. 두번째 카드를 클릭 시 카드 내부 정중앙의 아이콘을 누르면 isMatch에서 에러 
 (classList가 null인 상태)
+
+Suggestions to Make Your Project Stand Out!
+참조할 만한 자료 어떤 것 있는지
+1. Add CSS animations when cards are clicked, unsuccessfully matched,
+ and successfully matched.
+2. Add unique functionality beyond the minimum requirements 
+(Implement a leaderboard, store game state using local storage, etc.)
+3. Implement additional optimizations that improve the performance 
+and user experience of the game (keyboard shortcuts for gameplay, etc).
 */
 
 restart.addEventListener('click', function() {
@@ -187,3 +196,35 @@ restart.addEventListener('click', function() {
         deck.appendChild(shuffledCards[i]);
     resetStar();
 });
+
+let timeDisplay = document.querySelector('.timer');
+let seconds = 0, minutes = 0, hours = 0;
+let t;
+restart.onclick = function() {
+    timeDisplay.textContent = "00:00:00";
+    seconds = 0; minutes = 0; hours = 0;
+}
+function add() {
+    seconds++;
+    if (seconds >= 60) {
+        seconds = 0;
+        minutes++;
+        if (minutes >= 60) {
+            minutes = 0;
+            hours++;
+        }
+    }
+    
+    timeDisplay.textContent = 
+    (hours ? (hours > 9 ? hours : "0" + hours) : "00") + ":" 
+    + (minutes ? (minutes > 9 ? minutes : "0" + minutes) : "00") + ":" 
+    + (seconds > 9 ? seconds : "0" + seconds);
+
+    timer();
+}
+
+function timer() {
+    t = setTimeout(add, 1000);	// 1초마다 add해서 t에 반영
+}
+
+timer();
