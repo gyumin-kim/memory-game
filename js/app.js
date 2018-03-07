@@ -1,6 +1,6 @@
 const deck = document.querySelector('.deck');
 const cards = Array.from(deck.children);  // Convert <li> elements to an array
-const restart = document.querySelector('.restart');
+const restart = document.querySelector('.restart_top');
 let count = parseInt(document.querySelector('.moves').innerHTML);   // Click count
 let shuffledCards, openedCards, matchedCards;
 let lastCard = null;    // <li> element
@@ -12,6 +12,8 @@ let currentTime;
 let modal = document.getElementsByClassName('modal-content')[0]; // Get the modal
 let btn = document.getElementById("myBtn");     // Get the button that opens the modal
 let span = document.getElementsByClassName("close")[0]; // Get the <span> element that closes the modal
+const closeBtn = document.querySelector('.close');
+const replayBtn = document.querySelector('.replay_modal');
 
 /*
  * Display the cards on the page
@@ -111,11 +113,57 @@ function clickMatchedCard(card) {   // Check if you click a matched card
 function isFinished() { // If all cards have matched, display a message with the final score
     setTimeout(function wait() {    // Delay 600ms intentionally to occur after matchCards function
         matchCount = document.querySelectorAll('.match').length;
-        if (matchCount === 16)
-            $('.modal').modal("show");
+        if (matchCount === 16) {
+            // 시간 및 별표 반영
+            // 시간 멈춤(clearTimeout) & 리셋
+            $('.modal').modal({ show: false});
+            $('.modal').modal("show");  // Display modal popup
+            // Initialize timer
+            timeDisplay.textContent = "00:00:00";
+            seconds = 0; minutes = 0; hours = 0;
+            // Turn off stopwatch
+            clearTimeout(currentTime);
+        }
     }, 600);
 }
-
+function countToZero() {
+    document.querySelector('.moves').innerHTML = 0;
+    count = 0;
+}
+function switchOpenToCard() {
+    openedCards = Array.from(document.getElementsByClassName('open'));
+    for (let i = 0; i < openedCards.length; i++) {
+        openedCards[i].className = 'card';
+    }
+}
+function switchMatchToCard() {
+    matchedCards = Array.from(document.getElementsByClassName('match'));
+    for (let i = 0; i < matchedCards.length; i++) {
+        matchedCards[i].className = 'card';
+    }
+}
+function modalDisplayToNone() {
+    modal.style.display = "none";
+}
+function clickOutsideModal(target) {
+    if (target == modal) {
+        modal.style.display = "none";
+    }
+}
+function removeAllCardElements() {
+    while (deck.firstChild) {
+        deck.removeChild(deck.firstChild);
+    }
+}
+function appendElementsToDeck() {
+    for (let i = 0; i < shuffledCards.length; i++)
+        deck.appendChild(shuffledCards[i]);
+    resetStar();
+}
+function setTimerToZero() {
+    timeDisplay.textContent = "00:00:00";
+    seconds = 0; minutes = 0; hours = 0;
+}
 deck.addEventListener('click', function(event) {
     // If you click a matched card, nothing happens.
     if (clickMatchedCard(event.target))
@@ -158,50 +206,23 @@ deck.addEventListener('click', function(event) {
     }
 });
 
-/*
-QUESTION
-1. 두번째 카드를 클릭하고 색깔이 바뀐다거나 다시 뒤집히기까지 걸리는 0.5초 사이에
-클릭을 누르면 closeCard에서 에러 (classList가 null인 상태)
-2. 두번째 카드를 클릭 시 카드 내부 정중앙의 아이콘을 누르면 isMatch에서 에러 
-(classList가 null인 상태)
-
-Suggestions to Make Your Project Stand Out!
-참조할 만한 자료 어떤 것 있는지
-1. Add CSS animations when cards are clicked, unsuccessfully matched,
- and successfully matched.
-2. Add unique functionality beyond the minimum requirements 
-(Implement a leaderboard, store game state using local storage, etc.)
-3. Implement additional optimizations that improve the performance 
-and user experience of the game (keyboard shortcuts for gameplay, etc).
-*/
-
 restart.addEventListener('click', function() {
     // Initialize count to 0
-    document.querySelector('.moves').innerHTML = 0;
-    count = 0;
+    countToZero();
     // Make all openedCards' classes just 'card'
-    openedCards = Array.from(document.getElementsByClassName('open'));
-    for (let i = 0; i < openedCards.length; i++) {
-        openedCards[i].className = 'card';
-    }
+    switchOpenToCard();
     // Make all matchedCards' classes just 'card'
-    matchedCards = Array.from(document.getElementsByClassName('match'));
-    for (let i = 0; i < matchedCards.length; i++) {
-        matchedCards[i].className = 'card';
-    }
+    switchMatchToCard();
     // Shuffle all the cards and save to shuffledCards
     shuffledCards = shuffle(cards);
     // Remove all the <li> elements from deck(<ul> element)
-    while (deck.firstChild) {
-        deck.removeChild(deck.firstChild);
-    }
+    removeAllCardElements();
     // Append shuffled <li> elements to deck
-    for (let i = 0; i < shuffledCards.length; i++)
-        deck.appendChild(shuffledCards[i]);
-    resetStar();
+    appendElementsToDeck();
     // Initialize timer
-    timeDisplay.textContent = "00:00:00";
-    seconds = 0; minutes = 0; hours = 0;
+    setTimerToZero();
+    // Turn on timer
+    timer();
 });
 
 /************************** TIMER **************************/
@@ -232,23 +253,61 @@ function timer() {
 }
 
 timer();    // Turn on timer when you open the game
+
 /************************************************************/
 
 /************************** MODAL **************************/
 // When the user clicks on the button, open the modal 
-btn.onclick = function() {
+btn.addEventListener('click', function() {
     modal.style.display = "block";
-}
+});
 
-// When the user clicks on <span> (x), close the modal
-span.onclick = function() {
-    modal.style.display = "none";
-}
+// When the user clicks on close button (x), close the modal
+closeBtn.addEventListener('click', function() {
+    modalDisplayToNone();
+});
+
+// When the user clicks on replay button, close the modal and replay the game
+replayBtn.addEventListener('click', function() {
+    // Change display property of modal to none
+    modalDisplayToNone();
+    // Initialize count to 0
+    countToZero();
+    // Make all openedCards' classes just 'card'
+    switchOpenToCard();
+    // Make all matchedCards' classes just 'card'
+    switchMatchToCard();
+    // Shuffle all the cards and save to shuffledCards
+    shuffledCards = shuffle(cards);
+    // Remove all the <li> elements from deck(<ul> element)
+    removeAllCardElements();
+    // Append shuffled <li> elements to deck
+    appendElementsToDeck();
+    // Initialize timer
+    setTimerToZero();
+    // Turn on timer
+    timer();
+});
 
 // When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
-    if (event.target == modal) {
-        modal.style.display = "none";
-    }
-}
+window.addEventListener('click', function(event) {
+    clickOutsideModal(event.target);
+});
 /************************************************************/
+
+/*
+QUESTION
+1. 두번째 카드를 클릭하고 색깔이 바뀐다거나 다시 뒤집히기까지 걸리는 0.5초 사이에
+클릭을 누르면 closeCard에서 에러 (classList가 null인 상태)
+2. 두번째 카드를 클릭 시 카드 내부 정중앙의 아이콘을 누르면 isMatch에서 에러 
+(classList가 null인 상태)
+
+Suggestions to Make Your Project Stand Out!
+참조할 만한 자료 어떤 것 있는지
+1. Add CSS animations when cards are clicked, unsuccessfully matched,
+ and successfully matched.
+2. Add unique functionality beyond the minimum requirements 
+(Implement a leaderboard, store game state using local storage, etc.)
+3. Implement additional optimizations that improve the performance 
+and user experience of the game (keyboard shortcuts for gameplay, etc).
+*/
