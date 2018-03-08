@@ -202,6 +202,9 @@ deck.addEventListener('click', function(event) {
     // If you click a matched card, nothing happens.
     if (clickMatchedCard(event.target))
         return;
+    // If you click a third card prior to processing a couple of cards, do nothing.
+    if (document.querySelectorAll('.open').length === 2)
+        return;
     // If there's not opened card (lastCard's initial value is null)
     if (lastCard === null) {
         // Count your total tries
@@ -213,7 +216,7 @@ deck.addEventListener('click', function(event) {
     }
     // If there's an opened card
     else {
-        // Check if you click the same card twice
+        // Assume you didn't click the same card twice
         if (!(getCardIndex(lastCard) === getCardIndex(event.target))) {
             // Count your total tries
             countTry();
@@ -289,11 +292,8 @@ window.addEventListener('click', function(event) {
 
 /*
 ISSUE
-1. 두번째 카드를 클릭하고 색깔이 바뀐다거나 다시 뒤집히기까지 걸리는 0.5초 사이에
-클릭을 누르면 closeCard에서 에러 (classList가 null인 상태)
-2. 두번째 카드를 클릭 시 카드 내부 정중앙의 아이콘을 누르면 isMatch에서 에러 
+1. 두번째 카드를 클릭 시 카드 내부 정중앙의 아이콘을 누르면 isMatch에서 에러 
 (classList가 null인 상태)
-3. 상단 restart 버튼 여러번 누르면 타이머가 빨라짐
 
 Suggestions to Make Your Project Stand Out!
 참조할 만한 자료 어떤 것 있는지
