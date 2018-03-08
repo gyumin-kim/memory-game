@@ -5,6 +5,8 @@ let count = parseInt(document.querySelector('.moves').innerHTML);   // Click cou
 let shuffledCards, openedCards, matchedCards;
 let lastCard = null;    // <li> element
 let stars = document.querySelectorAll('.updateStar');
+let starsList = document.querySelector('.stars-list');
+let starsRating = document.getElementsByClassName('stars-rating')[0];
 let matchCount;
 let timeDisplay = document.querySelector('.timer');
 let seconds = 0, minutes = 0, hours = 0;
@@ -80,11 +82,13 @@ function isMatch(card) {
 }
 function matchCards(card) { // remove 'open', 'show', add 'match'
     setTimeout(function transToOpened() {
-        // In the lastCard, remove 'open', 'show' and add 'match' class
+        // remove 'open', 'show' and add 'match' class of lastCard
         closeCard(lastCard);
         lastCard.classList.add('match');
-        // In a card that I click now, add 'match' class
+        // remove 'open', 'show' and add 'match' class of card that you clicked now
+        closeCard(card);
         card.classList.add('match');
+        // lastCard to null
         lastCard = null;
     }, 500);
 }
@@ -102,10 +106,11 @@ function isFinished() { // If all cards have matched, display a message with the
     setTimeout(function wait() {    // Delay 600ms intentionally to occur after matchCards function
         matchCount = document.querySelectorAll('.match').length;
         if (matchCount === 16) {
-            // Update finishtime (+need for star rating!)
+            // Update finishtime and star rating!
             finishTime.innerHTML = timeDisplay.innerHTML;
+            starsRating.innerHTML += starsList.innerHTML;
             // 시간 멈춤(clearTimeout) & 리셋
-            
+
             // Display modal popup
             $('.modal').modal({ show: false});
             $('.modal').modal("show");

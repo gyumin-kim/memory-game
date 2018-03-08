@@ -95,14 +95,14 @@ h1 {
     align-items: center;    
 }
 
-.score-panel .stars {
+.score-panel .stars-list {
     margin: 0;
     padding: 0;
     display: inline-block;
     margin: 0 5px 0 0;
 }
 
-.score-panel .stars li {
+.score-panel .stars-list li {
     list-style: none;
     display: inline-block;
 }
@@ -147,9 +147,18 @@ h1 {
     font-weight: bold;
 }
 
-.close:hover,
-.close:focus {
+.close-modal:hover,
+.close-modal:focus {
     color: black;
     text-decoration: none;
     cursor: pointer;
+}
+
+.modal-content .stars-rating {
+    padding: 0;
+}
+
+.modal-content .stars-rating li {
+    list-style: none;
+    display: inline-block;
 }
