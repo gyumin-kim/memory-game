@@ -9,11 +9,11 @@ let matchCount;
 let timeDisplay = document.querySelector('.timer');
 let seconds = 0, minutes = 0, hours = 0;
 let currentTime;
-let modal = document.getElementsByClassName('modal-content')[0]; // Get the modal
+let modal = document.getElementsByClassName('modal')[0]; // Get the modal
 let btn = document.getElementById("myBtn");     // Get the button that opens the modal
 let span = document.getElementsByClassName("close")[0]; // Get the <span> element that closes the modal
-const closeBtn = document.querySelector('.close');
-const replayBtn = document.querySelector('.replay_modal');
+const closeBtnModal = document.querySelector('.close');
+const replayBtnModal = document.querySelector('.replay_modal');
 
 /*
  * Display the cards on the page
@@ -38,17 +38,6 @@ function shuffle(array) {   // Should pass an array as argument
     }
     return array;        // Return a shuffled array
 }
-
-/*
- * set up the event listener for a card. If a card is clicked:
- *  - display the card's symbol (put this functionality in another function that you call from this one)
- *  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
- *  - if the list already has another card, check to see if the two cards match
- *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
- *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
- *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
- *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
- */
 function countTry() {   // Increment the move counter and display it on the page
     if (++count % 2 === 0) {
         document.querySelector('.moves').textContent = count / 2;
@@ -115,6 +104,7 @@ function isFinished() { // If all cards have matched, display a message with the
         matchCount = document.querySelectorAll('.match').length;
         if (matchCount === 16) {
             // 시간 및 별표 반영
+
             // 시간 멈춤(clearTimeout) & 리셋
             $('.modal').modal({ show: false});
             $('.modal').modal("show");  // Display modal popup
@@ -145,7 +135,7 @@ function switchMatchToCard() {
 function modalDisplayToNone() {
     modal.style.display = "none";
 }
-function clickOutsideModal(target) {
+function clickWindowOutsideModal(target) {
     if (target == modal) {
         modal.style.display = "none";
     }
@@ -164,6 +154,41 @@ function setTimerToZero() {
     timeDisplay.textContent = "00:00:00";
     seconds = 0; minutes = 0; hours = 0;
 }
+function add() {
+    seconds++;
+    if (seconds >= 60) {
+        seconds = 0;
+        minutes++;
+        if (minutes >= 60) {
+            minutes = 0;
+            hours++;
+        }
+    }
+    
+    // Display current time in two digits.
+    timeDisplay.textContent = 
+    (hours ? (hours > 9 ? hours : "0" + hours) : "00") + ":" 
+    + (minutes ? (minutes > 9 ? minutes : "0" + minutes) : "00") + ":" 
+    + (seconds > 9 ? seconds : "0" + seconds);
+
+    timer();    // Update timer every second
+}
+function timer() {  // Call add() every second and save it to currentTime
+    currentTime = setTimeout(add, 1000);
+}
+
+timer();    // Turn on timer when you open the game
+
+/*
+ * set up the event listener for a card. If a card is clicked:
+ *  - display the card's symbol (put this functionality in another function that you call from this one)
+ *  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
+ *  - if the list already has another card, check to see if the two cards match
+ *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
+ *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
+ *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
+ *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
+ */
 deck.addEventListener('click', function(event) {
     // If you click a matched card, nothing happens.
     if (clickMatchedCard(event.target))
@@ -225,50 +250,14 @@ restart.addEventListener('click', function() {
     timer();
 });
 
-/************************** TIMER **************************/
-
-function add() {
-    seconds++;
-    if (seconds >= 60) {
-        seconds = 0;
-        minutes++;
-        if (minutes >= 60) {
-            minutes = 0;
-            hours++;
-        }
-    }
-    
-    // Display current time in two digits.
-    timeDisplay.textContent = 
-    (hours ? (hours > 9 ? hours : "0" + hours) : "00") + ":" 
-    + (minutes ? (minutes > 9 ? minutes : "0" + minutes) : "00") + ":" 
-    + (seconds > 9 ? seconds : "0" + seconds);
-
-    timer();    // Update timer every second
-}
-
-// Call add() every second and save it to t
-function timer() {
-    currentTime = setTimeout(add, 1000);
-}
-
-timer();    // Turn on timer when you open the game
-
-/************************************************************/
-
 /************************** MODAL **************************/
-// When the user clicks on the button, open the modal 
-btn.addEventListener('click', function() {
-    modal.style.display = "block";
-});
-
 // When the user clicks on close button (x), close the modal
-closeBtn.addEventListener('click', function() {
+closeBtnModal.addEventListener('click', function() {
     modalDisplayToNone();
 });
 
 // When the user clicks on replay button, close the modal and replay the game
-replayBtn.addEventListener('click', function() {
+replayBtnModal.addEventListener('click', function() {
     // Change display property of modal to none
     modalDisplayToNone();
     // Initialize count to 0
@@ -287,11 +276,13 @@ replayBtn.addEventListener('click', function() {
     setTimerToZero();
     // Turn on timer
     timer();
+    // Close modal
+    modalDisplayToNone();
 });
 
 // When the user clicks anywhere outside of the modal, close it
 window.addEventListener('click', function(event) {
-    clickOutsideModal(event.target);
+    clickWindowOutsideModal(event.target);
 });
 /************************************************************/
 
