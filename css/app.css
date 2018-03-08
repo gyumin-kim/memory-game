@@ -107,7 +107,7 @@ h1 {
     display: inline-block;
 }
 
-.score-panel .restart_top {
+.score-panel .restart-top {
     float: right;
     cursor: pointer;
 }
@@ -132,14 +132,15 @@ h1 {
     padding: 20px;
     border: 1px solid #888;
     width: 80%; /* Could be more or less, depending on screen size */
+    text-align: center;
 }
 
-.modal-content .replay_modal {
+.modal-content .replay-modal {
     cursor: pointer;
 }
 
 /* The Close Button */
-.close {
+.close-modal {
     color: #aaa;
     float: right;
     font-size: 28px;

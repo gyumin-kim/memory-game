@@ -1,6 +1,6 @@
 const deck = document.querySelector('.deck');
 const cards = Array.from(deck.children);  // Convert <li> elements to an array
-const restart = document.querySelector('.restart_top');
+const restart = document.querySelector('.restart-top');
 let count = parseInt(document.querySelector('.moves').innerHTML);   // Click count
 let shuffledCards, openedCards, matchedCards;
 let lastCard = null;    // <li> element
@@ -9,11 +9,10 @@ let matchCount;
 let timeDisplay = document.querySelector('.timer');
 let seconds = 0, minutes = 0, hours = 0;
 let currentTime;
-let modal = document.getElementsByClassName('modal')[0]; // Get the modal
-let btn = document.getElementById("myBtn");     // Get the button that opens the modal
-let span = document.getElementsByClassName("close")[0]; // Get the <span> element that closes the modal
-const closeBtnModal = document.querySelector('.close');
-const replayBtnModal = document.querySelector('.replay_modal');
+const modal = document.getElementsByClassName('modal')[0]; // Get the modal
+const closeBtnModal = document.querySelector('.close-modal');
+const replayBtnModal = document.querySelector('.replay-modal');
+let finishTime = document.querySelector('.finish-time');
 
 /*
  * Display the cards on the page
@@ -104,10 +103,12 @@ function isFinished() { // If all cards have matched, display a message with the
         matchCount = document.querySelectorAll('.match').length;
         if (matchCount === 16) {
             // 시간 및 별표 반영
-
+            finishTime.innerHTML = timeDisplay.innerHTML;
             // 시간 멈춤(clearTimeout) & 리셋
+
+            // Display modal popup
             $('.modal').modal({ show: false});
-            $('.modal').modal("show");  // Display modal popup
+            $('.modal').modal("show");
             // Initialize timer
             timeDisplay.textContent = "00:00:00";
             seconds = 0; minutes = 0; hours = 0;
@@ -177,7 +178,14 @@ function timer() {  // Call add() every second and save it to currentTime
     currentTime = setTimeout(add, 1000);
 }
 
-timer();    // Turn on timer when you open the game
+// // Shuffle all the cards and save to shuffledCards
+// shuffledCards = shuffle(cards);
+// // Remove all the <li> elements from deck(<ul> element)
+// removeAllCardElements();
+// // Append shuffled <li> elements to deck
+// appendElementsToDeck();
+// Turn on timer when you open the game
+timer();
 
 /*
  * set up the event listener for a card. If a card is clicked:
