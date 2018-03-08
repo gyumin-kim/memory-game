@@ -102,10 +102,10 @@ function isFinished() { // If all cards have matched, display a message with the
     setTimeout(function wait() {    // Delay 600ms intentionally to occur after matchCards function
         matchCount = document.querySelectorAll('.match').length;
         if (matchCount === 16) {
-            // 시간 및 별표 반영
+            // Update finishtime (+need for star rating!)
             finishTime.innerHTML = timeDisplay.innerHTML;
             // 시간 멈춤(clearTimeout) & 리셋
-
+            
             // Display modal popup
             $('.modal').modal({ show: false});
             $('.modal').modal("show");
@@ -141,12 +141,11 @@ function clickWindowOutsideModal(target) {
         modal.style.display = "none";
     }
 }
-function removeAllCardElements() {
+function applyShuffledCards() {
+    shuffledCards = shuffle(cards);
     while (deck.firstChild) {
         deck.removeChild(deck.firstChild);
     }
-}
-function appendElementsToDeck() {
     for (let i = 0; i < shuffledCards.length; i++)
         deck.appendChild(shuffledCards[i]);
     resetStar();
@@ -178,12 +177,8 @@ function timer() {  // Call add() every second and save it to currentTime
     currentTime = setTimeout(add, 1000);
 }
 
-// // Shuffle all the cards and save to shuffledCards
-// shuffledCards = shuffle(cards);
-// // Remove all the <li> elements from deck(<ul> element)
-// removeAllCardElements();
-// // Append shuffled <li> elements to deck
-// appendElementsToDeck();
+// Initial setting
+// applyShuffledCards();
 // Turn on timer when you open the game
 timer();
 
@@ -246,12 +241,8 @@ restart.addEventListener('click', function() {
     switchOpenToCard();
     // Make all matchedCards' classes just 'card'
     switchMatchToCard();
-    // Shuffle all the cards and save to shuffledCards
-    shuffledCards = shuffle(cards);
-    // Remove all the <li> elements from deck(<ul> element)
-    removeAllCardElements();
-    // Append shuffled <li> elements to deck
-    appendElementsToDeck();
+    // Shuffle all the cards and apply to the deck
+    applyShuffledCards();
     // Initialize timer
     setTimerToZero();
     // Turn on timer
@@ -274,12 +265,8 @@ replayBtnModal.addEventListener('click', function() {
     switchOpenToCard();
     // Make all matchedCards' classes just 'card'
     switchMatchToCard();
-    // Shuffle all the cards and save to shuffledCards
-    shuffledCards = shuffle(cards);
-    // Remove all the <li> elements from deck(<ul> element)
-    removeAllCardElements();
-    // Append shuffled <li> elements to deck
-    appendElementsToDeck();
+    // Shuffle all the cards and apply to the deck
+    applyShuffledCards();
     // Initialize timer
     setTimerToZero();
     // Turn on timer
