@@ -16,13 +16,6 @@ const closeBtnModal = document.querySelector('.close-modal');
 const replayBtnModal = document.querySelector('.replay-modal');
 let finishTime = document.querySelector('.finish-time');
 
-/*
- * Display the cards on the page
- *   - shuffle the list of cards using the provided "shuffle" method below
- *   - loop through each card and create its HTML
- *   - add each card's HTML to the page
- */
-
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {   // Should pass an array as argument
     var currentIndex = array.length, temporaryValue, randomIndex;
@@ -184,21 +177,14 @@ function timer() {  // Call add() every second and save it to currentTime
 }
 
 // Initial setting
-// applyShuffledCards();
+applyShuffledCards();
 // Turn on timer when you open the game
 timer();
 
-/*
- * set up the event listener for a card. If a card is clicked:
- *  - display the card's symbol (put this functionality in another function that you call from this one)
- *  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
- *  - if the list already has another card, check to see if the two cards match
- *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
- *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
- *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
- *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
- */
 deck.addEventListener('click', function(event) {
+    // If you an area outside the card but inside the dock, do nothing.
+    if (event.target.className !== 'card') 
+        return;
     // If you click a matched card, nothing happens.
     if (clickMatchedCard(event.target))
         return;
@@ -291,10 +277,6 @@ window.addEventListener('click', function(event) {
 /************************************************************/
 
 /*
-ISSUE
-1. 두번째 카드를 클릭 시 카드 내부 정중앙의 아이콘을 누르면 isMatch에서 에러 
-(classList가 null인 상태)
-
 Suggestions to Make Your Project Stand Out!
 참조할 만한 자료 어떤 것 있는지
 1. Add CSS animations when cards are clicked, unsuccessfully matched,
