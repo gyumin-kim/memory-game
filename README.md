@@ -1,20 +1,14 @@
 # Memory Game Project
 
-## Table of Contents
+## How to play this game
 
-* [Instructions](#instructions)
-* [Contributing](#contributing)
+![game-capture](screen-shot.png)
+Find the right pair of cards by click:point_up_2:, and match all the 16 cards correctly, as soon as possible!:alarm_clock: You can see your time:clock4: and star rating :star2::star2::star2: after the game is over.
 
-## Instructions
+## Meaning to me
 
-The starter project has some HTML and CSS styling to display a static version of the Memory Game project. You'll need to convert this project from a static project to an interactive one. This will require modifying the HTML and CSS files, but primarily the JavaScript file.
+It's actually the first time to fully combine HTML, CSS and Javascript into hundreds of lines of code. Through this project, I became more confident and familiar with HTML & CSS, Javascript.
 
-To get started, open `js/app.js` and start building out the app's functionality
+## Thanks to
 
-For specific, detailed instructions, look at the project instructions in the [Udacity Classroom](https://classroom.udacity.com/me).
-
-## Contributing
-
-This repository is the starter code for _all_ Udacity students. Therefore, we most likely will not accept pull requests.
-
-For details, check out [CONTRIBUTING.md](CONTRIBUTING.md).
+Udacity instructors, my mentor Sang Han, and all the slack channel people!
