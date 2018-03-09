@@ -39,17 +39,13 @@ function countTry() {   // Increment the move counter and display it on the page
     }
 }
 function updateStar() { // Change the number of stars according to counter
-    if (count/2 === 10) {
+    if (count/2 === 15) {
         stars[2].classList.add('fa-star-o');
         stars[2].classList.remove('fa-star');
     }
-    else if (count/2 === 15) {
+    else if (count/2 === 22) {
         stars[1].classList.add('fa-star-o');
         stars[1].classList.remove('fa-star');
-    }
-    else if (count/2 === 20) {
-        stars[0].classList.add('fa-star-o');
-        stars[0].classList.remove('fa-star');
     }
 }
 function resetStar() {
@@ -102,8 +98,6 @@ function isFinished() { // If all cards have matched, display a message with the
             // Update finishtime and star rating!
             finishTime.innerHTML = timeDisplay.innerHTML;
             starsRating.innerHTML += starsList.innerHTML;
-            // 시간 멈춤(clearTimeout) & 리셋
-
             // Display modal popup
             $('.modal').modal({ show: false});
             $('.modal').modal("show");
