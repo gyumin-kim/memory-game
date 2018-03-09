@@ -169,20 +169,29 @@ function timer() {  // Call add() every second and save it to currentTime
     clearTimeout(currentTime);  // Set timer to initial state to prevent speeding up
     currentTime = setTimeout(add, 1000);
 }
+function onetime(node, type, callback) {    // One-time event
+	// Create event
+	node.addEventListener(type, function(event) {
+		// Remove event
+		event.target.removeEventListener(event.type, arguments.callee);
+		// Call handler
+		return callback;
+	});
+}
 
 // Initial setting
 applyShuffledCards();
-// Turn on timer when you open the game
-timer();
 
 deck.addEventListener('click', function(event) {
-    // If you an area outside the card but inside the dock, do nothing.
+    // Turn on timer when you click a card first.
+    onetime(deck, 'click', timer());
+    // If you an area outside the card but inside the dock, nothing happens.
     if (event.target.className !== 'card') 
         return;
     // If you click a matched card, nothing happens.
     if (clickMatchedCard(event.target))
         return;
-    // If you click a third card prior to processing a couple of cards, do nothing.
+    // If you click a third card prior to processing a couple of cards, nothing happens.
     if (document.querySelectorAll('.open').length === 2)
         return;
     // If there's not opened card (lastCard's initial value is null)
@@ -271,8 +280,7 @@ window.addEventListener('click', function(event) {
 /************************************************************/
 
 /*
-Suggestions to Make Your Project Stand Out!
-참조할 만한 자료 어떤 것 있는지
+MORE
 1. Add CSS animations when cards are clicked, unsuccessfully matched,
  and successfully matched.
 2. Add unique functionality beyond the minimum requirements 
