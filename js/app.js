@@ -58,12 +58,19 @@ function resetStar() {
 }
 function displaySymbol(card) {  // Display the card's symbol
     card.classList.add('open', 'show');
+    // Add animated class when opening a card
+    card.classList.add('animated', 'pulse');
 }
 function updateLastCard(card) {
     lastCard = card;
 }
 function closeCard(card) {
-    card.classList.remove('open', 'show');
+    card.classList.remove('open', 'show', 'animated', 'pulse');
+}
+function closeNotMatchedCard(card) {
+    card.classList.remove('open', 'show', 'animated', 'pulse');
+    card.classList.add('animated', 'shake');
+    
 }
 function isMatch(card) {
     if (card.firstElementChild.classList[1] === lastCard.firstElementChild.classList[1])   return true;
@@ -74,9 +81,13 @@ function matchCards(card) { // remove 'open', 'show', add 'match'
         // remove 'open', 'show' and add 'match' class of lastCard
         closeCard(lastCard);
         lastCard.classList.add('match');
+        // Add animated class when cards ard matched
+        lastCard.classList.add('animated', 'flash');
         // remove 'open', 'show' and add 'match' class of card that you clicked now
         closeCard(card);
         card.classList.add('match');
+        // Add animated class when cards ard matched
+        card.classList.add('animated', 'flash');
         // lastCard to null
         lastCard = null;
     }, 500);
@@ -223,9 +234,13 @@ deck.addEventListener('click', function(event) {
                 displaySymbol(event.target);    // class to 'open', 'show'
                 setTimeout(function transToClosed() {
                     // Remove 'open', 'show'
-                    closeCard(lastCard);
-                    closeCard(event.target);
-                    lastCard = null;
+                    closeNotMatchedCard(lastCard);
+                    closeNotMatchedCard(event.target);
+                    setTimeout(function removeShake() {
+                        lastCard.classList.remove('animated', 'shake');
+                        event.target.classList.remove('animated', 'shake');
+                        lastCard = null;
+                    }, 200);
                 }, 500);
             }
         }
